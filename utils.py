@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import keras.backend as K
 import keras.layers
+import os
 
 def sine_wave(seq_length=30, num_samples=28*5*100, num_signals=1,
         freq_low=1, freq_high=5, amplitude_low = 0.1, amplitude_high=0.9, **kwargs):
@@ -29,4 +30,21 @@ def draw_train_loss(plotdata,plot_name):
     plt.xlabel('Epoch')
     plt.ylabel('log10(Loss)')
     plt.savefig(plot_name)
+    plt.close()
+
+def draw_generated_signal(plotdata,path,epoch):
+    data1 = plotdata[400,:]
+    data2 = plotdata[800,:]
+    data3 = plotdata[1200,:]
+
+    plt.subplot(311)
+    plt.plot(np.arange(len(data1)),data1)
+    plt.subplot(312)
+    plt.plot(np.arange(len(data2)),data2)
+    plt.subplot(313)
+    plt.plot(np.arange(len(data3)),data3)
+    plt.suptitle('generated samples after '+str(epoch+1)+' epoch')
+
+    plotname = 'Generated_signal_'+str(epoch+1)+'_epoch.png'
+    plt.savefig(os.path.join(path,plotname))
     plt.close()
