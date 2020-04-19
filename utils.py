@@ -22,29 +22,51 @@ def sine_wave(seq_length=30, num_samples=28*5*100, num_signals=1,
     samples = np.array(samples)
     return samples
         
-def draw_train_loss(plotdata,plot_name):
-    D_line, = plt.plot(plotdata['D_idx'],np.log10(np.array(plotdata["D_loss"])),'b',label='Discriminator loss') 
-    G_line, = plt.plot(plotdata['G_idx'],np.log10(np.array(plotdata["G_loss"])),'r',label='Generator loss') 
+def draw_train_loss(plotdata,path,epoch):
+    D_line, = plt.plot(plotdata['D_idx'],np.array(plotdata["D_loss"]),'b',label='Discriminator loss') 
+    G_line, = plt.plot(plotdata['G_idx'],np.array(plotdata["G_loss"]),'r',label='Generator loss') 
     plt.legend(handles=[D_line,G_line])
     
     plt.xlabel('Epoch')
-    plt.ylabel('log10(Loss)')
-    plt.savefig(plot_name)
+    plt.ylabel('Loss')
+
+    plot_name = 'training_loss_epoch_'+str(epoch)+'.png'
+
+    plt.savefig(os.path.join(path,plot_name))
+    plt.close()
+
+def draw_D_loss(plotdata,path,epoch):
+    real_line, = plt.plot(plotdata['eval_idx'],plotdata['Dreal_loss'],'g',label='D loss in real data')
+    fake_line, = plt.plot(plotdata['eval_idx'],plotdata['Dfake_loss'],'m',label='D loss in fake data')
+    plt.legend(handles=[real_line,fake_line])
+
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+
+    plot_name = 'discriminator_loss_epoch_'+str(epoch)+'.png'
+
+    plt.savefig(os.path.join(path,plot_name))
     plt.close()
 
 def draw_generated_signal(plotdata,path,epoch):
-    data1 = plotdata[400,:]
-    data2 = plotdata[800,:]
-    data3 = plotdata[1200,:]
+    data1 = plotdata[300,:]
+    data2 = plotdata[600,:]
+    data3 = plotdata[900,:]
+    data4 = plotdata[1200,:]
+    data5 = plotdata[1400,:]
 
-    plt.subplot(311)
+    plt.subplot(511)
     plt.plot(np.arange(len(data1)),data1)
-    plt.subplot(312)
+    plt.subplot(512)
     plt.plot(np.arange(len(data2)),data2)
-    plt.subplot(313)
+    plt.subplot(513)
     plt.plot(np.arange(len(data3)),data3)
-    plt.suptitle('generated samples after '+str(epoch+1)+' epoch')
+    plt.subplot(514)
+    plt.plot(np.arange(len(data4)),data4)
+    plt.subplot(515)
+    plt.plot(np.arange(len(data5)),data5)
+    plt.suptitle('generated samples after '+str(epoch)+' epoch')
 
-    plotname = 'Generated_signal_'+str(epoch+1)+'_epoch.png'
+    plotname = 'Generated_signal_'+str(epoch)+'_epoch.png'
     plt.savefig(os.path.join(path,plotname))
     plt.close()
