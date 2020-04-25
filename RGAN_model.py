@@ -23,14 +23,14 @@ def average_crossentropy(y_true, y_pred):
 
 def generator_model(data_params,network_params):
     input_noise = Input(shape=(data_params['data_len'],network_params['latent_dim'],))
-    fake_signal = LSTM(network_params['hidden_unit'], activation=None,recurrent_activation='tanh', use_bias=True, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', dropout=network_params['dropout_rate'], recurrent_dropout=network_params['dropout_rate'],return_sequences=True)(input_noise)
-    fake_signal = Dense(data_params['nb_channel'],activation='tanh',use_bias=True,kernel_initializer='TruncatedNormal',bias_initializer='TruncatedNormal')(fake_signal)
+    fake_signal = LSTM(network_params['hidden_unit'], activation='tanh',recurrent_activation='sigmoid', use_bias=True, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', return_sequences=True)(input_noise)
+    fake_signal = Dense(data_params['nb_channel'],activation=None,use_bias=True,kernel_initializer='TruncatedNormal',bias_initializer='TruncatedNormal')(fake_signal)
     Gen = Model(inputs=input_noise,outputs=fake_signal)
     return(Gen)
 
 def discriminator_model(data_params,network_params):
     input_signal = Input(shape=(data_params['data_len'],data_params['nb_channel']))
-    fake = LSTM(network_params['hidden_unit'], activation=None,recurrent_activation='tanh', use_bias=True, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', dropout=network_params['dropout_rate'], recurrent_dropout=network_params['dropout_rate'],
+    fake = LSTM(network_params['hidden_unit'], activation='tanh',recurrent_activation='sigmoid', use_bias=True, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', dropout=network_params['dropout_rate'], recurrent_dropout=network_params['dropout_rate'],
             return_sequences=True)(input_signal)
     fake = Dense(1,activation=None,use_bias=True,kernel_initializer='TruncatedNormal',bias_initializer='TruncatedNormal')(fake)
     Dis = Model(inputs=input_signal,outputs=fake)

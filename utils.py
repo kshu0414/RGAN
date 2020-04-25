@@ -16,7 +16,7 @@ def sine_wave(seq_length=30, num_samples=28*5*100, num_signals=1,
             A = np.random.uniform(low=amplitude_low, high=amplitude_high)        # amplitude
             # offset
             offset = np.random.uniform(low=-np.pi, high=np.pi)
-            signals.append(A*np.sin(2*np.pi*f*ix/float(seq_length) + offset))
+            signals.append(A*np.sin(2*np.pi*f*ix/float(seq_length) + offset)) # sampling frequency is 30Hz
         samples.append(np.array(signals).T)
     # the shape of the samples is num_samples x seq_length x num_signals
     samples = np.array(samples)
@@ -30,7 +30,7 @@ def draw_train_loss(plotdata,path,epoch):
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
 
-    plot_name = 'training_loss_epoch_'+str(epoch)+'.png'
+    plot_name = 'training_loss.png'
 
     plt.savefig(os.path.join(path,plot_name))
     plt.close()
@@ -43,7 +43,7 @@ def draw_D_loss(plotdata,path,epoch):
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
 
-    plot_name = 'discriminator_loss_epoch_'+str(epoch)+'.png'
+    plot_name = 'discriminator_loss.png'
 
     plt.savefig(os.path.join(path,plot_name))
     plt.close()
