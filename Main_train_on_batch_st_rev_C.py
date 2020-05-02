@@ -218,7 +218,7 @@ if __name__ == "__main__":
     D_round = 3
     G_round = 1
 
-    curr_path = 'Cyclic_D%dG%d_TOB_Adamlr%0.5fSGD%0.5f_decay%0.5f'%(D_round,G_round,D_lr,G_lr,decay)
+    curr_path = 'Cyclic_D%dG%d_TOB_SGDlr%0.5fSGD%0.5f_decay%0.5f'%(D_round,G_round,D_lr,G_lr,decay)
     #Discriminator.load_weights(os.path.join(curr_path,'DW.hdf5'))
     #Generator.load_weights(os.path.join(curr_path,'GW.hdf5'))
     #Combined.set_weights(Generator.get_weights())
